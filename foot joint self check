@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>足関節 機能チェック（前足部先行・踵タッチ歩行ベース）</title>
+<style>
+  :root { --bg:#0b0c10; --card:#12151a; --ink:#e6eef7; --muted:#9fb3c8; --accent:#55c1ff; --good:#2ecc71; --warn:#f1c40f; --bad:#e74c3c; }
+  *{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,"Noto Sans JP","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;}
+  body{margin:0;background:linear-gradient(180deg,#0b0c10,#0f131a);color:var(--ink);}
+  header{padding:20px 16px;border-bottom:1px solid #1f2730;background:rgba(0,0,0,.35);position:sticky;top:0;backdrop-filter:blur(6px);}
+  h1{margin:0;font-size:18px;letter-spacing:.02em}
+  main{max-width:900px;margin:0 auto;padding:24px 16px 80px;}
+  .card{background:var(--card);border:1px solid #1f2730;border-radius:14px;padding:18px;margin-bottom:16px;box-shadow:0 6px 16px rgba(0,0,0,.25)}
+  .hint{color:var(--muted);font-size:13px;margin-top:6px}
+  .row{display:flex;flex-wrap:wrap;gap:12px;margin-top:10px}
+  .row > *{flex:1 1 240px}
+  label{display:block;font-weight:600;margin-bottom:6px}
+  input[type="number"], select, textarea{width:100%;padding:10px;border-radius:10px;border:1px solid #283241;background:#0e1218;color:var(--ink);}
+  .pill{display:inline-block;padding:6px 10px;border-radius:999px;border:1px solid #283241;background:#0e1218;color:var(--muted);font-size:12px;margin-right:6px}
+  .btn{appearance:none;border:none;border-radius:12px;padding:12px 16px;background:var(--accent);color:#001b2a;font-weight:700;cursor:pointer}
+  .btn:active{transform:translateY(1px)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+  .score{font-size:28px;font-weight:800}
+  .badge{display:inline-block;padding:4px 10px;border-radius:999px;font-size:12px;margin-left:8px;border:1px solid #283241}
+  .good{color:var(--good)} .warn{color:var(--warn)} .bad{color:var(--bad)}
+  details summary{cursor:pointer;color:var(--muted)}
+  kbd{background:#0e1218;border:1px solid #283241;border-bottom-width:2px;border-radius:6px;padding:0 6px}
+  footer{position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,.55);backdrop-filter:blur(6px);border-top:1px solid #1f2730}
+  footer .inner{max-width:900px;margin:0 auto;padding:10px 16px;display:flex;gap:10px;align-items:center}
+  .small{font-size:12px;color:var(--muted)}
+</style>
+</head>
+<body>
+<header>
+  <h1>足関節 機能チェック｜前足部先行 → 踵タッチ → シームレス切替</h1>
+  <div class="small">歩行を評価に転用：母趾球で接地し踵は“触れるだけ”。背屈→底屈の切替速度と全身連動の滑らかさをスクリーニング。</div>
+</header>
+
+<main>
+  <section class="card">
+    <div class="pill">目的：機能スクリーニング</div>
+    <div class="pill">所要時間：3–5分</div>
+    <div class="pill">必要物品：壁/定規/段差</div>
+    <p class="hint">※本シートは現場での簡易評価用。医療的診断を置き換えるものではありません。</p>
+  </section>
+
+  <section class="card">
+    <h3>① 症状チェック</h3>
+    <div class="grid">
+      <div>
+        <label>痛み</label>
+        <select id="pain">
+          <option value="0">なし</option>
+          <option value="1">軽度（気になる）</option>
+          <option value="2">中等度（動作に影響）</option>
+          <option value="3">強い（動作困難）</option>
+        </select>
+      </div>
+      <div>
+        <label>こわばり/違和感（歩行時）</label>
+        <select id="stiff">
+          <option value="0">なし</option>
+          <option value="1">軽度</option>
+          <option value="2">中等度</option>
+          <option value="3">強い</option>
+        </select>
+      </div>
+      <div>
+        <label>既往歴</label>
+        <select id="hx">
+          <option value="0">特になし</option>
+          <option value="1">捻挫/骨折/手術などあり</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h3>② 背屈可動域（ウォールテスト）</h3>
+    <p class="hint">壁に膝をつけたまま踵が浮かない最大距離を左右計測（cm）。概ね10cm以上で日常動作には十分とされることが多い。</p>
+    <div class="row">
+      <div>
+        <label>右（cm）</label>
+        <input type="number" id="df_r" min="0" step="0.5" placeholder="例: 10">
+      </div>
+      <div>
+        <label>左（cm）</label>
+        <input type="number" id="df_l" min="0" step="0.5" placeholder="例: 10">
+      </div>
+      <div>
+        <label>左右差（自動計算）</label>
+        <input type="number" id="df_diff" disabled>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h3>③ 底屈持久力（片脚カーフレイズ）</h3>
+    <p class="hint">段差で膝伸展、踵を落としてから最大挙上。テンポ <kbd>1上/1下</kbd>、反動なし。目安：25回以上が良好。</p>
+    <div class="row">
+      <div>
+        <label>右（回）</label>
+        <input type="number" id="cr_r" min="0" step="1" placeholder="例: 25">
+      </div>
+      <div>
+        <label>左（回）</label>
+        <input type="number" id="cr_l" min="0" step="1" placeholder="例: 25">
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h3>④ アーチ/母趾球グリップ</h3>
+    <p class="hint">ショートフット（母趾付け根を軽く押し下げ土踏まずをわずかに高く）を保持したまま、その場歩行10歩。</p>
+    <div class="row">
+      <div>
+        <label>保持できたか</label>
+        <select id="arch">
+          <option value="0">問題なく保持</option>
+          <option value="1">やや崩れる</option>
+          <option value="2">崩れる/攣る</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h3>⑤ “前足部先行→踵タッチ” 歩行テスト</h3>
+    <p class="hint">5～10m歩行。母趾球で接地→足関節が背屈→踵が触れる→即座に底屈で抜ける、の切替を主観評価。</p>
+    <div class="grid">
+      <div>
+        <label>切替の速さ（背屈⇄底屈）</label>
+        <select id="switch">
+          <option value="0">非常にスムーズ</option>
+          <option value="1">やや滞る</option>
+          <option value="2">明らかに滞る</option>
+        </select>
+      </div>
+      <div>
+        <label>踵の接触時間</label>
+        <select id="heel">
+          <option value="0">瞬間的（触れるだけ）</option>
+          <option value="1">やや長い</option>
+          <option value="2">長い/乗り込む</option>
+        </select>
+      </div>
+      <div>
+        <label>全身の連動感（骨盤の前進）</label>
+        <select id="pelvis">
+          <option value="0">良好に連動する</option>
+          <option value="1">やや重い</option>
+          <option value="2">重い/ブレーキ感</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="row">
+      <button class="btn" onclick="calc()">評価する</button>
+      <button class="btn" style="background:#32445a;color:#dfe9f5" onclick="resetForm()">リセット</button>
+    </div>
+  </section>
+
+  <section class="card" id="result" style="display:none">
+    <h3>評価結果</h3>
+    <div class="score" id="scoreText">—</div>
+    <p id="gradeText" class="hint"></p>
+    <details>
+      <summary>推奨アクション（開く）</summary>
+      <div id="actions"></div>
+    </details>
+  </section>
+
+  <section class="card">
+    <h3>記録メモ（任意）</h3>
+    <textarea id="notes" rows="4" placeholder="例）右足首が重い。歩行テストで踵の接触が長い。来週までに背屈モビ＋カーフレイズ実施。"></textarea>
+  </section>
+</main>
+
+<footer>
+  <div class="inner small">
+    <div>© Ankle Function Check • v1.0 • 教育・現場用の簡易スクリーニング</div>
+  </div>
+</footer>
+
+<script>
+function valNum(id){ const v=parseFloat(document.getElementById(id).value); return isNaN(v)?null:v; }
+function valInt(id){ const v=parseInt(document.getElementById(id).value); return isNaN(v)?null:v; }
+function valSel(id){ return parseInt(document.getElementById(id).value); }
+
+function calc(){
+  const pain=valSel('pain'), stiff=valSel('stiff'), hx=valSel('hx');
+  const df_r=valNum('df_r'), df_l=valNum('df_l');
+  const cr_r=valInt('cr_r'), cr_l=valInt('cr_l');
+  const arch=valSel('arch');
+  const sw=valSel('switch'), heel=valSel('heel'), pelvis=valSel('pelvis');
+
+  let df_diff=null;
+  if(df_r!=null && df_l!=null){ df_diff=Math.abs(df_r-df_l); document.getElementById('df_diff').value=df_diff.toFixed(1); }
+
+  let score=0;
+  score += pain + stiff + (hx?0:0);
+  if(df_r!=null && df_l!=null){
+    const avg=(df_r+df_l)/2;
+    if(avg>=10) score+=0;
+    else if(avg>=8) score+=1;
+    else score+=2;
+    if(df_diff!=null && df_diff>=2) score+=1;
+  } else { score+=2; }
+
+  if(cr_r!=null && cr_l!=null){
+    const minCR=Math.min(cr_r,cr_l);
+    if(minCR>=25) score+=0;
+    else if(minCR>=18) score+=1;
+    else score+=2;
+    if(Math.abs(cr_r-cr_l)>=5) score+=1;
+  } else { score+=2; }
+
+  score += arch;
+  score += sw + heel + pelvis;
+
+  let grade=''; let color='';
+  if(score<=3){ grade='A（良好）'; color='good'; }
+  else if(score<=7){ grade='B（要調整）'; color='warn'; }
+  else { grade='C（改善優先）'; color='bad'; }
+
+  const scoreText=document.getElementById('scoreText');
+  scoreText.textContent = `総合スコア：${score} ／ 評価：${grade}`;
+  scoreText.className='score '+color;
+
+  const acts=[];
+  if(pain>=2 || stiff>=2){ acts.push('症状が中等度以上：無理な負荷は避け、医療的評価を検討。炎症期はアイシング/圧迫/挙上を優先。'); }
+  if(df_r==null || df_l==null){ acts.push('背屈のウォールテスト（左右）を計測して記録。'); }
+  else {
+    const avg=(df_r+df_l)/2;
+    if(avg<10){ acts.push('背屈モビリティ：<ul><li>アンクルロッカー（膝前方ドライブ）×10回×2-3セット/日</li><li>ソールスティフネスの低い靴/裸足での短時間歩行（安全な環境）</li></ul>'); }
+    if(Math.abs(df_r-df_l)>=2){ acts.push('左右差是正：背屈が小さい側を追加セットでモビリティ実施。'); }
+  }
+  if(cr_r==null || cr_l==null){ acts.push('片脚カーフレイズ（段差）を左右で実施し回数を記録。'); }
+  else {
+    const minCR=Math.min(cr_r,cr_l);
+    if(minCR<25){ acts.push('底屈強化：<ul><li>片脚カーフレイズ 12-15回×3セット（テンポ一定）</li><li>アイソメトリック保持（つま先立ち20-30秒×3）</li></ul>'); }
+    if(Math.abs(cr_r-cr_l)>=5){ acts.push('非対称是正：回数の少ない側に+1セット。'); }
+  }
+  if(arch>=1){ acts.push('アーチ制御：<ul><li>ショートフット 10秒×10回</li><li>母趾球グリップでのその場歩行 10歩×2-3セット</li></ul>'); }
+  if(sw>=1 || heel>=1){ acts.push('歩行ドリル：<ul><li>母趾球先行→踵タッチ→即抜け（3歩→一拍リセット）×5セット</li><li>芝/ゴム面で“踵を消す”歩行 10m×3本</li></ul>'); }
+  if(pelvis>=1){ acts.push('連動促進：<ul><li>骨盤の前進ドリル（壁プッシュ歩行）5m×3</li><li>足部→下腿→骨盤の順で意識キューを流す</li></ul>'); }
+
+  const actionsDiv=document.getElementById('actions');
+  actionsDiv.innerHTML = acts.length?('<ul><li>'+acts.join('</li><li>')+'</li></ul>'):'特記なし：現状の歩行パターンを維持しつつ週2-3回のメンテを推奨。';
+
+  document.getElementById('result').style.display='block';
+  window.scrollTo({top:document.getElementById('result').offsetTop-60,behavior:'smooth'});
+}
+
+function resetForm(){
+  document.querySelectorAll('input[type=number]').forEach(el=>el.value='');
+  document.querySelectorAll('select').forEach(el=>el.selectedIndex=0);
+  document.getElementById('df_diff').value='';
+  document.getElementById('notes').value='';
+  document.getElementById('result').style.display='none';
+}
+</script>
+</body>
+</html>
