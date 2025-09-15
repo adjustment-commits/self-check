@@ -1,282 +1,555 @@
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>腰部セルフチェック｜野球選手版 LITE（保存なし） v1.3（現場優先・簡素表示）</title>
+<title>野球選手向け セルフチェック LITE｜ALL-IN-ONE（保存なし）</title>
 <style>
-  :root{
-    --bg:#0f0f12;--card:#17181c;--ink:#e9eef5;--muted:#aab3c2;--accent:#3aaed8;--danger:#ff4d4f;--warn:#f5a524;--good:#36c26e;--info:#4da3ff;
-    --border:#2a2d36;
-  }
-  *{box-sizing:border-box}
-  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue","Segoe UI",Roboto,"Hiragino Kaku Gothic ProN","Noto Sans JP",Meiryo,sans-serif}
-  header{position:sticky;top:0;background:linear-gradient(180deg,rgba(23,24,28,.98),rgba(23,24,28,.92));backdrop-filter:saturate(120%) blur(8px);z-index:10;border-bottom:1px solid var(--border)}
-  header .row{display:flex;gap:.75rem;align-items:center;justify-content:space-between;padding:.75rem clamp(.8rem,3vw,1.2rem)}
-  h1{font-size:clamp(1.05rem,2.5vw,1.3rem);margin:0;font-weight:700;letter-spacing:.02em}
-  .pill{font-size:.8rem;color:var(--muted);}
-  main{max-width:980px;margin:0 auto;padding:1rem clamp(.8rem,3vw,1.2rem) 3rem}
-  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1rem;margin:.9rem 0}
-  .section-title{display:flex;align-items:center;gap:.5rem;font-weight:800;margin:.2rem 0 .6rem}
-  .hint{color:var(--muted);font-size:.9rem}
-  .checks{display:grid;grid-template-columns:1fr;gap:.5rem}
-  @media(min-width:680px){.checks{grid-template-columns:1fr 1fr}}
-  .check{background:#111217;border:1px solid var(--border);border-radius:12px;padding:.7rem .85rem;display:flex;gap:.6rem;align-items:flex-start}
-  .check input{transform:scale(1.2);margin-top:.25rem}
-  .toolbar{display:flex;flex-wrap:wrap;gap:.6rem}
-  button{
-    appearance:none;border:none;border-radius:12px;padding:.7rem .95rem;background:#1e232b;color:var(--ink);
-    font-weight:700;border:1px solid var(--border);cursor:pointer
-  }
-  button.primary{background:var(--accent);color:#071018;border-color:transparent}
-  button.ghost{background:transparent}
-  .status{border-radius:12px;padding:.9rem 1rem;border:1px solid var(--border);display:flex;gap:.8rem;align-items:flex-start}
-  .badge{font-weight:800;padding:.25rem .55rem;border-radius:999px}
-  .danger-badge{background:var(--danger);color:#111}
-  .warn-badge{background:var(--warn);color:#111}
-  .ok-badge{background:var(--good);color:#031}
-  .info-badge{background:var(--info);color:#021}
-  details{border:1px solid var(--border);border-radius:12px;overflow:hidden;background:#111217}
-  summary{cursor:pointer;padding:.9rem 1rem;background:#12131a;font-weight:700;list-style:none}
-  summary::-webkit-details-marker{display:none}
-  details .content{padding:.8rem .9rem 1rem}
-  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:.9rem}
-  @media print{header,.no-print{display:none!important} body{background:#fff;color:#000} .card{border-color:#ccc}}
-  .pill2{display:inline-block;font-size:.8rem;padding:.15rem .5rem;border:1px solid var(--border);border-radius:999px;background:#101218;color:#aab3c2}
-  .none-row{grid-column:1/-1;opacity:.9}
-  .howto{display:grid;gap:.4rem;margin:.4rem 0 .2rem}
-  .howto div{display:flex;gap:.6rem;align-items:flex-start}
-  .howto b{display:inline-block;width:1.4rem;text-align:center;background:#243243;color:#9fd6ff;border-radius:6px}
+:root{--bg:#0f1115;--card:#17181c;--ink:#e9eef5;--muted:#aab3c2;--accent:#3aaed8;--danger:#ff4d4f;--warn:#f5a524;--good:#36c26e;--info:#4da3ff;--border:#2a2d36}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:radial-gradient(1200px 800px at 10% -10%,#19304255,transparent),var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Helvetica Neue",Roboto,"Hiragino Kaku Gothic ProN","Noto Sans JP",Meiryo,sans-serif}
+header{padding:1.1rem clamp(.9rem,3vw,1.4rem);border-bottom:1px solid var(--border);background:linear-gradient(180deg,rgba(23,24,28,.96),rgba(23,24,28,.90));backdrop-filter:saturate(120%) blur(8px);position:sticky;top:0;z-index:10}
+h1{margin:.2rem 0;font-size:clamp(1.2rem,3.2vw,1.6rem)}
+.lead{color:var(--muted);font-size:.95rem;line-height:1.65}
+main{max-width:1100px;margin:0 auto;padding:1rem clamp(.9rem,3vw,1.4rem) 3rem}
+.tabs{display:flex;gap:.6rem;flex-wrap:wrap;margin:1.1rem 0 .2rem}
+.tab{appearance:none;border:1px solid var(--border);background:#1e232b;color:var(--ink);border-radius:999px;padding:.55rem .9rem;font-weight:700;cursor:pointer}
+.tab.active{background:var(--accent);color:#071018;border-color:transparent}
+.pane{display:none}.pane.active{display:block}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1rem;margin:.9rem 0}
+.section-title{display:flex;gap:.5rem;align-items:center;font-weight:800;margin:.2rem 0 .6rem}
+.hint{color:var(--muted);font-size:.9rem}
+.howto{display:grid;gap:.35rem;margin:.3rem 0 .1rem}
+.howto div{display:flex;gap:.55rem;align-items:flex-start}
+.howto b{display:inline-block;width:1.35rem;text-align:center;background:#243243;color:#9fd6ff;border-radius:6px}
+.checks{display:grid;grid-template-columns:1fr;gap:.5rem}
+@media(min-width:720px){.checks{grid-template-columns:1fr 1fr}}
+.check{background:#111217;border:1px solid var(--border);border-radius:12px;padding:.7rem .85rem;display:flex;gap:.6rem;align-items:flex-start}
+.check input{transform:scale(1.2);margin-top:.25rem}
+.none-row{grid-column:1/-1;opacity:.9}
+.status{border-radius:12px;padding:.9rem 1rem;border:1px solid var(--border);display:flex;gap:.8rem;align-items:flex-start}
+.badge{font-weight:800;padding:.25rem .55rem;border-radius:999px}
+.danger-badge{background:var(--danger);color:#111}.warn-badge{background:var(--warn);color:#111}
+.ok-badge{background:var(--good);color:#031}.info-badge{background:var(--info);color:#021}
+.toolbar{display:flex;gap:.6rem;flex-wrap:wrap}
+button,.btn{appearance:none;border:1px solid var(--border);border-radius:12px;padding:.7rem .95rem;background:#1e232b;color:var(--ink);font-weight:700;cursor:pointer;text-decoration:none;display:inline-block}
+.primary{background:var(--accent);color:#071018;border-color:transparent}
+.mono{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.9rem}
+footer{margin-top:2rem;color:var(--muted);font-size:.85rem}
+@media print{header,.tabs,.no-print{display:none!important} body{background:#fff;color:#000} .card{border-color:#ccc}}
 </style>
 </head>
 <body>
 <header>
-  <div class="row">
-    <h1>腰部セルフチェック｜野球選手版 LITE（保存なし） <span style="opacity:.6">v1.3 現場優先</span></h1>
-    <div class="pill">オフライン可・保存なし・結果のみ共有</div>
+  <h1>野球選手向け セルフチェック LITE｜ALL-IN-ONE</h1>
+  <div class="lead">
+    このサイトは、野球選手が<strong>「受診すべきか迷ったとき」</strong>に参考にできるセルフチェック集です。腰・肩・肘・足関節について典型的なサインを整理し、チェック内容に応じて<strong>受診必要性と競技参加目安</strong>を自動表示します。<br><br>
+    <strong>特徴</strong>：オフライン動作／保存なし・個人情報入力なし／結果のコピー・印刷が可能。<br>
+    <strong>ご注意</strong>：教育・啓発目的の参考情報であり、診断・治療ではありません。強い症状や不安がある場合は医療機関の受診を検討してください。
   </div>
 </header>
 
 <main>
-  <section class="card">
-    <div class="section-title">使い方 <span class="pill2">チェック → 自動判定 → コピー/印刷</span></div>
-    <div class="howto">
-      <div><b>1</b><span>当てはまる項目にチェック。<u>「特になし」は他の項目と排他</u>です。</span></div>
-      <div><b>2</b><span>下の<span class="pill2">受診必要性 & 参加目安</span>が自動更新されます。</span></div>
-      <div><b>3</b><span>「結果をコピー」または「PDFに書き出す」で必要に応じて共有。</span></div>
-    </div>
-  </section>
+  <div class="tabs no-print">
+    <button class="tab active" data-pane="lumbar">腰</button>
+    <button class="tab" data-pane="shoulder">肩</button>
+    <button class="tab" data-pane="elbow">肘</button>
+    <button class="tab" data-pane="ankle">足関節機能</button>
+    <a class="btn" onclick="window.print()">PDFに書き出す（印刷）</a>
+  </div>
 
-  <section class="card">
-    <div class="section-title">受診必要性 & 競技参加の自動判定 <span class="pill2">参考</span></div>
-    <div id="statusBox" class="status">
-      <span id="statusBadge" class="badge ok-badge">様子観察（所見なし）</span>
-      <div>
-        <div id="statusText">チェックを入れると自動判定します。</div>
-        <div id="playText" class="hint">参加目安：全面参加可（痛みゼロ／可動域正常が前提）</div>
-        <div id="summary" class="mono" style="margin-top:.4rem;white-space:pre-wrap"></div>
+  <!-- ===== 腰 ===== -->
+  <section id="pane-lumbar" class="pane active">
+    <div class="card">
+      <div class="section-title">腰部セルフチェック <span class="hint">チェック → 自動判定 → コピー</span></div>
+      <div class="howto">
+        <div><b>1</b><span>当てはまる項目にチェック（<u>「特になし」は他と排他</u>）。</span></div>
+        <div><b>2</b><span>下の<strong>受診必要性 &amp; 参加目安</strong>が自動更新。</span></div>
+        <div><b>3</b><span>「結果をコピー」で必要に応じて共有。</span></div>
       </div>
     </div>
+
+    <div class="card">
+      <div class="section-title">受診必要性 &amp; 競技参加（参考）</div>
+      <div class="status">
+        <span id="L_statusBadge" class="badge ok-badge">様子観察（所見なし）</span>
+        <div>
+          <div id="L_statusText">チェックを入れると自動判定します。</div>
+          <div id="L_playText" class="hint">参加目安：全面参加可（痛みゼロ／可動域正常が前提）</div>
+          <div id="L_summary" class="mono" style="margin-top:.4rem;white-space:pre-wrap"></div>
+        </div>
+      </div>
+    </div>
+
+    <details open class="card">
+      <summary>① 筋筋膜性腰痛（急性・亜急性）</summary>
+      <div class="content checks">
+        <label class="check"><input type="checkbox" data-scope="L" data-group="mfp" data-weight="1" id="L_mfp_local"><span>局所の圧痛・張り感</span></label>
+        <label class="check"><input type="checkbox" data-scope="L" data-group="mfp" data-weight="1" id="L_mfp_bend"><span>前屈や起き上がりで痛む</span></label>
+        <label class="check"><input type="checkbox" data-scope="L" data-group="mfp" data-weight="1" id="L_mfp_roll"><span>寝返りで痛む／こわばり</span></label>
+        <label class="check none-row"><input type="checkbox" class="none-option" data-scope="L" data-group="mfp" id="L_mfp_none"><span>特になし</span></label>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary>② 腰椎分離症・すべり症 疑い</summary>
+      <div class="content checks">
+        <label class="check"><input type="checkbox" data-scope="L" data-group="spondy" data-weight="3" id="L_spondy_extend"><span>腰の伸展（反り）で痛む</span></label>
+        <label class="check"><input type="checkbox" data-scope="L" data-group="spondy" data-weight="3" id="L_spondy_oneleg"><span>片脚後屈（折りたたみ伸展）で痛む</span></label>
+        <label class="check"><input type="checkbox" data-scope="L" data-group="spondy" data-weight="2" id="L_spondy_afternoon"><span>午後〜練習後に痛みが増す</span></label>
+        <label class="check"><input type="checkbox" data-scope="L" data-group="spondy" data-weight="2" id="L_spondy_history"><span>分離の既往／画像で指摘歴あり</span></label>
+        <label class="check none-row"><input type="checkbox" class="none-option" data-scope="L" data-group="spondy" id="L_spondy_none"><span>特になし</span></label>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary>③ 椎間板ヘルニア 疑い</summary>
+      <div class="content checks">
+        <label class="check"><input type="checkbox" data-scope="L" data-group="hernia" data-weight="3" id="L_hernia_leg"><span>臀部〜下肢への放散痛／しびれ</span></label>
+        <label class="check"><input type="checkbox" data-scope="L" data-group="hernia" data-weight="2" id="L_hernia_cough"><span>咳・くしゃみ・いきみで悪化</span></label>
+        <label class="check"><input type="checkbox" data-scope="L" data-group="hernia" data-weight="3" id="L_hernia_slr"><span>SLR（下肢伸展挙上）で症状再現</span></label>
+        <label class="check"><input type="checkbox" data-scope="L" data-group="hernia" data-weight="3" id="L_hernia_weak"><span>足趾背屈/足関節底屈の筋力低下感</span></label>
+        <label class="check none-row"><input type="checkbox" class="none-option" data-scope="L" data-group="hernia" id="L_hernia_none"><span>特になし</span></label>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary>④ 急性腰痛（ぎっくり腰）</summary>
+      <div class="content checks">
+        <label class="check"><input type="checkbox" data-scope="L" data-group="acute" data-weight="2" id="L_acute_onset"><span>動作をきっかけに急激に発症</span></label>
+        <label class="check"><input type="checkbox" data-scope="L" data-group="acute" data-weight="2" id="L_acute_guard"><span>姿勢保持が困難／防御的</span></label>
+        <label class="check"><input type="checkbox" data-scope="L" data-group="acute" data-weight="1" id="L_acute_local"><span>局所の強い圧痛</span></label>
+        <label class="check none-row"><input type="checkbox" class="none-option" data-scope="L" data-group="acute" id="L_acute_none"><span>特になし</span></label>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary>⑤ 慢性腰痛</summary>
+      <div class="content checks">
+        <label class="check"><input type="checkbox" data-scope="L" data-group="chronic" data-weight="1" id="L_chronic_3m"><span>3か月以上痛みが続く</span></label>
+        <label class="check"><input type="checkbox" data-scope="L" data-group="chronic" data-weight="1" id="L_chronic_flare"><span>反復的にぶり返す</span></label>
+        <label class="check"><input type="checkbox" data-scope="L" data-group="chronic" data-weight="1" id="L_chronic_stiff"><span>朝のこわばり・運動不足・睡眠不良</span></label>
+        <label class="check none-row"><input type="checkbox" class="none-option" data-scope="L" data-group="chronic" id="L_chronic_none"><span>特になし</span></label>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary>⑥ 野球特異的サイン</summary>
+      <div class="content checks">
+        <label class="check"><input type="checkbox" data-scope="L" data-group="baseball" data-weight="2" id="L_bb_extrot_hit"><span>打撃の伸展＋回旋で痛む（インパクト付近）</span></label>
+        <label class="check"><input type="checkbox" data-scope="L" data-group="baseball" data-weight="2" id="L_bb_throw_end"><span>投球終末相で腰部痛（フォロースルー）</span></label>
+        <label class="check"><input type="checkbox" data-scope="L" data-group="baseball" data-weight="2" id="L_bb_sprint"><span>盗塁スタートなど加速局面で痛む</span></label>
+        <label class="check"><input type="checkbox" data-scope="L" data-group="baseball" data-weight="2" id="L_bb_loadspike"><span>前週比で走・投・打いずれか30％以上増加（負荷スパイク）</span></label>
+        <label class="check none-row"><input type="checkbox" class="none-option" data-scope="L" data-group="baseball" id="L_baseball_none"><span>特になし</span></label>
+      </div>
+    </details>
+
+    <details class="card">
+      <summary>⑦ レッドフラッグ（緊急度高）</summary>
+      <div class="content checks">
+        <label class="check"><input type="checkbox" data-scope="L" data-group="red" data-weight="6" id="L_red_bladder"><span>排尿困難・尿失禁／便失禁（膀胱直腸障害）</span></label>
+        <label class="check"><input type="checkbox" data-scope="L" data-group="red" data-weight="6" id="L_red_saddle"><span>鞍部（股間まわり）の感覚低下</span></label>
+        <label class="check"><input type="checkbox" data-scope="L" data-group="red" data-weight="5" id="L_red_bilatleg"><span>両下肢のしびれ・筋力低下</span></label>
+        <label class="check"><input type="checkbox" data-scope="L" data-group="red" data-weight="4" id="L_red_fever"><span>発熱・悪寒・原因不明の体調不良</span></label>
+        <label class="check"><input type="checkbox" data-scope="L" data-group="red" data-weight="4" id="L_red_weightloss"><span>原因不明の体重減少</span></label>
+        <label class="check"><input type="checkbox" data-scope="L" data-group="red" data-weight="4" id="L_red_cancer"><span>がんの既往・免疫抑制・長期ステロイド</span></label>
+        <label class="check"><input type="checkbox" data-scope="L" data-group="red" data-weight="4" id="L_red_trauma"><span>強い外傷（転落・交通事故 等）</span></label>
+        <label class="check none-row"><input type="checkbox" class="none-option" data-scope="L" data-group="red" id="L_red_none"><span>特になし</span></label>
+      </div>
+    </details>
+
+    <section class="card no-print">
+      <div class="toolbar">
+        <button class="primary" data-copy="L">結果をコピー</button>
+        <button class="ghost" data-reset="L">判定をリセット</button>
+      </div>
+    </section>
   </section>
 
-  <details open class="card">
-    <summary>① 筋筋膜性腰痛（急性・亜急性）</summary>
-    <div class="content checks">
-      <label class="check"><input type="checkbox" data-group="mfp" data-weight="1" id="mfp_local"> <span>局所の圧痛・張り感</span></label>
-      <label class="check"><input type="checkbox" data-group="mfp" data-weight="1" id="mfp_bend"> <span>前屈や起き上がりで痛む</span></label>
-      <label class="check"><input type="checkbox" data-group="mfp" data-weight="1" id="mfp_roll"> <span>寝返りで痛む／こわばり</span></label>
-      <label class="check none-row"><input type="checkbox" class="none-option" data-group="mfp" id="mfp_none"> <span>特になし</span></label>
+  <!-- ===== 肩 ===== -->
+  <section id="pane-shoulder" class="pane">
+    <div class="card"><div class="section-title">肩セルフチェック <span class="hint">チェック → 自動判定 → コピー</span></div></div>
+    <div class="card">
+      <div class="section-title">受診必要性 &amp; 競技参加（参考）</div>
+      <div class="status">
+        <span id="S_statusBadge" class="badge ok-badge">様子観察（所見なし）</span>
+        <div>
+          <div id="S_statusText">チェックを入れると自動判定します。</div>
+          <div id="S_playText" class="hint">参加目安：全面参加可（痛みゼロ／可動域正常が前提）</div>
+          <div id="S_summary" class="mono" style="margin-top:.4rem;white-space:pre-wrap"></div>
+        </div>
+      </div>
     </div>
-  </details>
-
-  <details class="card">
-    <summary>② 腰椎分離症・すべり症 疑い</summary>
-    <div class="content checks">
-      <label class="check"><input type="checkbox" data-group="spondy" data-weight="3" id="spondy_extend"> <span>腰の伸展（反り）で痛む</span></label>
-      <label class="check"><input type="checkbox" data-group="spondy" data-weight="3" id="spondy_oneleg"> <span>片脚後屈（折りたたみ伸展）で痛む</span></label>
-      <label class="check"><input type="checkbox" data-group="spondy" data-weight="2" id="spondy_afternoon"> <span>午後〜練習後に痛みが増す</span></label>
-      <label class="check"><input type="checkbox" data-group="spondy" data-weight="2" id="spondy_history"> <span>分離の既往／画像で指摘歴あり</span></label>
-      <label class="check none-row"><input type="checkbox" class="none-option" data-group="spondy" id="spondy_none"> <span>特になし</span></label>
-    </div>
-  </details>
-
-  <details class="card">
-    <summary>③ 椎間板ヘルニア 疑い</summary>
-    <div class="content checks">
-      <label class="check"><input type="checkbox" data-group="hernia" data-weight="3" id="hernia_leg"> <span>臀部〜下肢への放散痛／しびれ</span></label>
-      <label class="check"><input type="checkbox" data-group="hernia" data-weight="2" id="hernia_cough"> <span>咳・くしゃみ・いきみで悪化</span></label>
-      <label class="check"><input type="checkbox" data-group="hernia" data-weight="3" id="hernia_slr"> <span>SLR（下肢伸展挙上）で症状再現</span></label>
-      <label class="check"><input type="checkbox" data-group="hernia" data-weight="3" id="hernia_weak"> <span>足趾背屈/足関節底屈の筋力低下感</span></label>
-      <label class="check none-row"><input type="checkbox" class="none-option" data-group="hernia" id="hernia_none"> <span>特になし</span></label>
-    </div>
-  </details>
-
-  <details class="card">
-    <summary>④ 急性腰痛（ぎっくり腰）</summary>
-    <div class="content checks">
-      <label class="check"><input type="checkbox" data-group="acute" data-weight="2" id="acute_onset"> <span>動作をきっかけに急激に発症</span></label>
-      <label class="check"><input type="checkbox" data-group="acute" data-weight="2" id="acute_guard"> <span>姿勢保持が困難／防御的</span></label>
-      <label class="check"><input type="checkbox" data-group="acute" data-weight="1" id="acute_local"> <span>局所の強い圧痛</span></label>
-      <label class="check none-row"><input type="checkbox" class="none-option" data-group="acute" id="acute_none"> <span>特になし</span></label>
-    </div>
-  </details>
-
-  <details class="card">
-    <summary>⑤ 慢性腰痛</summary>
-    <div class="content checks">
-      <label class="check"><input type="checkbox" data-group="chronic" data-weight="1" id="chronic_3m"> <span>3か月以上痛みが続く</span></label>
-      <label class="check"><input type="checkbox" data-group="chronic" data-weight="1" id="chronic_flare"> <span>反復的にぶり返す</span></label>
-      <label class="check"><input type="checkbox" data-group="chronic" data-weight="1" id="chronic_stiff"> <span>朝のこわばり・運動不足・睡眠不良</span></label>
-      <label class="check none-row"><input type="checkbox" class="none-option" data-group="chronic" id="chronic_none"> <span>特になし</span></label>
-    </div>
-  </details>
-
-  <details class="card">
-    <summary>⑥ 野球特異的サイン</summary>
-    <div class="content checks">
-      <label class="check"><input type="checkbox" data-group="baseball" data-weight="2" id="bb_extrot_hit"> <span>打撃の伸展＋回旋で痛む（インパクト付近）</span></label>
-      <label class="check"><input type="checkbox" data-group="baseball" data-weight="2" id="bb_throw_end"> <span>投球終末相で腰部痛（フォロースルー）</span></label>
-      <label class="check"><input type="checkbox" data-group="baseball" data-weight="2" id="bb_sprint"> <span>盗塁スタートなど加速局面で痛む</span></label>
-      <label class="check"><input type="checkbox" data-group="baseball" data-weight="2" id="bb_loadspike"> <span>前週比で走・投・打いずれか30％以上増加（負荷スパイク）</span></label>
-      <label class="check none-row"><input type="checkbox" class="none-option" data-group="baseball" id="baseball_none"> <span>特になし</span></label>
-    </div>
-  </details>
-
-  <details class="card">
-    <summary>⑦ レッドフラッグ（緊急度高）</summary>
-    <div class="content checks">
-      <label class="check"><input type="checkbox" data-group="red" data-weight="6" id="red_bladder"> <span>排尿困難・尿失禁／便失禁（膀胱直腸障害）</span></label>
-      <label class="check"><input type="checkbox" data-group="red" data-weight="6" id="red_saddle"> <span>鞍部（股間まわり）の感覚低下</span></label>
-      <label class="check"><input type="checkbox" data-group="red" data-weight="5" id="red_bilatleg"> <span>両下肢のしびれ・筋力低下</span></label>
-      <label class="check"><input type="checkbox" data-group="red" data-weight="4" id="red_fever"> <span>発熱・悪寒・原因不明の体調不良</span></label>
-      <label class="check"><input type="checkbox" data-group="red" data-weight="4" id="red_weightloss"> <span>原因不明の体重減少</span></label>
-      <label class="check"><input type="checkbox" data-group="red" data-weight="4" id="red_cancer"> <span>がんの既往・免疫抑制・長期ステロイド</span></label>
-      <label class="check"><input type="checkbox" data-group="red" data-weight="4" id="red_trauma"> <span>強い外傷（転落・交通事故 等）</span></label>
-      <label class="check none-row"><input type="checkbox" class="none-option" data-group="red" id="red_none"> <span>特になし</span></label>
-    </div>
-  </details>
-
-  <section class="card no-print">
-    <div class="toolbar">
-      <button class="primary" id="btnCopy">結果をコピー</button>
-      <button id="btnPrint">PDFに書き出す（印刷）</button>
-      <button class="ghost" id="btnReset">判定をリセット</button>
-    </div>
+    <details open class="card">
+      <summary>① 回旋腱板（腱炎・部分断裂 含む）</summary>
+      <div class="content checks">
+        <label class="check"><input type="checkbox" data-scope="S" data-group="rc" data-weight="2" id="S_rc_painfularc"><span>肩外転60–120°付近（ペインフルアーク）で痛む</span></label>
+        <label class="check"><input type="checkbox" data-scope="S" data-group="rc" data-weight="2" id="S_rc_resist"><span>抵抗外旋/外転で痛み・力が入りにくい</span></label>
+        <label class="check"><input type="checkbox" data-scope="S" data-group="rc" data-weight="1" id="S_rc_night"><span>夜間痛（寝返り・横向きで悪化）</span></label>
+        <label class="check none-row"><input type="checkbox" class="none-option" data-scope="S" data-group="rc" id="S_rc_none"><span>特になし</span></label>
+      </div>
+    </details>
+    <details class="card">
+      <summary>② インピンジメント／内部衝突（投球肩）</summary>
+      <div class="content checks">
+        <label class="check"><input type="checkbox" data-scope="S" data-group="imp" data-weight="2" id="S_imp_latecocking"><span>90°外転＋外旋（レイトコッキング）で後方肩痛</span></label>
+        <label class="check"><input type="checkbox" data-scope="S" data-group="imp" data-weight="2" id="S_imp_posterior_stretch"><span>肩後方ストレッチで症状再現</span></label>
+        <label class="check"><input type="checkbox" data-scope="S" data-group="imp" data-weight="2" id="S_imp_throw_end"><span>投球終末相で痛む／コントロール低下</span></label>
+        <label class="check"><input type="checkbox" data-scope="S" data-group="imp" data-weight="2" id="S_imp_loadspike"><span>投球量の急増（前週比30％以上アップ）</span></label>
+        <label class="check none-row"><input type="checkbox" class="none-option" data-scope="S" data-group="imp" id="S_imp_none"><span>特になし</span></label>
+      </div>
+    </details>
+    <details class="card">
+      <summary>③ 上腕二頭筋長頭／SLAP疑い</summary>
+      <div class="content checks">
+        <label class="check"><input type="checkbox" data-scope="S" data-group="slap" data-weight="2" id="S_slap_speed"><span>肘伸展・前方挙上で前方肩痛（Speed様）</span></label>
+        <label class="check"><input type="checkbox" data-scope="S" data-group="slap" data-weight="2" id="S_slap_follow"><span>フォロースルーで前方肩痛</span></label>
+        <label class="check"><input type="checkbox" data-scope="S" data-group="slap" data-weight="2" id="S_slap_click"><span>クリック音／引っかかり感</span></label>
+        <label class="check none-row"><input type="checkbox" class="none-option" data-scope="S" data-group="slap" id="S_slap_none"><span>特になし</span></label>
+      </div>
+    </details>
+    <details class="card">
+      <summary>④ AC（肩鎖）関節障害</summary>
+      <div class="content checks">
+        <label class="check"><input type="checkbox" data-scope="S" data-group="ac" data-weight="2" id="S_ac_crossbody"><span>水平内転（クロスボディ）で局所痛</span></label>
+        <label class="check"><input type="checkbox" data-scope="S" data-group="ac" data-weight="2" id="S_ac_trauma"><span>肩の直達外傷や転倒の既往</span></label>
+        <label class="check"><input type="checkbox" data-scope="S" data-group="ac" data-weight="1" id="S_ac_tender"><span>AC関節の限局圧痛</span></label>
+        <label class="check none-row"><input type="checkbox" class="none-option" data-scope="S" data-group="ac" id="S_ac_none"><span>特になし</span></label>
+      </div>
+    </details>
+    <details class="card">
+      <summary>⑤ 可動域制限／拘縮（GIRD含む）</summary>
+      <div class="content checks">
+        <label class="check"><input type="checkbox" data-scope="S" data-group="gird" data-weight="2" id="S_gird_irdef"><span>内旋可動域が反対側より明らかに少ない（主観で20°以上）</span></label>
+        <label class="check"><input type="checkbox" data-scope="S" data-group="gird" data-weight="1" id="S_gird_tight"><span>手を背中に回せない／左右差が大きい</span></label>
+        <label class="check"><input type="checkbox" data-scope="S" data-group="gird" data-weight="1" id="S_gird_morning"><span>朝のこわばりやストレッチ不足を自覚</span></label>
+        <label class="check none-row"><input type="checkbox" class="none-option" data-scope="S" data-group="gird" id="S_gird_none"><span>特になし</span></label>
+      </div>
+    </details>
+    <details class="card">
+      <summary>⑥ 肩甲胸郭／姿勢起因</summary>
+      <div class="content checks">
+        <label class="check"><input type="checkbox" data-scope="S" data-group="st" data-weight="1" id="S_st_posture"><span>猫背・胸椎伸展不足が強い</span></label>
+        <label class="check"><input type="checkbox" data-scope="S" data-group="st" data-weight="1" id="S_st_scap"><span>肩甲骨下制/内旋位が強くスキャプションで違和感</span></label>
+        <label class="check"><input type="checkbox" data-scope="S" data-group="st" data-weight="1" id="S_st_fatigue"><span>肩甲帯周辺の筋持久力低下を自覚</span></label>
+        <label class="check none-row"><input type="checkbox" class="none-option" data-scope="S" data-group="st" id="S_st_none"><span>特になし</span></label>
+      </div>
+    </details>
+    <details class="card">
+      <summary>⑦ レッドフラッグ（緊急度高）</summary>
+      <div class="content checks">
+        <label class="check"><input type="checkbox" data-scope="S" data-group="red" data-weight="6" id="S_red_deform"><span>明らかな変形／脱臼疑い（段差・位置異常）</span></label>
+        <label class="check"><input type="checkbox" data-scope="S" data-group="red" data-weight="5" id="S_red_numb"><span>感覚消失・持続するしびれ／握力低下</span></label>
+        <label class="check"><input type="checkbox" data-scope="S" data-group="red" data-weight="5" id="S_red_cold"><span>手の蒼白・冷感・脈が触れにくい</span></label>
+        <label class="check none-row"><input type="checkbox" class="none-option" data-scope="S" data-group="red" id="S_red_none"><span>特になし</span></label>
+      </div>
+    </details>
+    <section class="card no-print">
+      <div class="toolbar">
+        <button class="primary" data-copy="S">結果をコピー</button>
+        <button class="ghost" data-reset="S">判定をリセット</button>
+      </div>
+    </section>
   </section>
+
+  <!-- ===== 肘 ===== -->
+  <section id="pane-elbow" class="pane">
+    <div class="card"><div class="section-title">肘セルフチェック <span class="hint">チェック → 自動判定 → コピー</span></div></div>
+    <div class="card">
+      <div class="section-title">受診必要性 &amp; 競技参加（参考）</div>
+      <div class="status">
+        <span id="E_statusBadge" class="badge ok-badge">様子観察（所見なし）</span>
+        <div>
+          <div id="E_statusText">チェックを入れると自動判定します。</div>
+          <div id="E_playText" class="hint">参加目安：全面参加可（痛みゼロ／可動域正常が前提）</div>
+          <div id="E_summary" class="mono" style="margin-top:.4rem;white-space:pre-wrap"></div>
+        </div>
+      </div>
+    </div>
+    <details open class="card">
+      <summary>① 内側側副靱帯（UCL）/ 内側痛</summary>
+      <div class="content checks">
+        <label class="check"><input type="checkbox" data-scope="E" data-group="ucl" data-weight="3" id="E_ucl_valgus"><span>外反ストレス（投球時の肘外反）で痛む</span></label>
+        <label class="check"><input type="checkbox" data-scope="E" data-group="ucl" data-weight="2" id="E_ucl_latecocking"><span>レイトコッキング〜加速で内側痛</span></label>
+        <label class="check"><input type="checkbox" data-scope="E" data-group="ucl" data-weight="2" id="E_ucl_tender"><span>内側上顆〜UCL走行の限局圧痛</span></label>
+        <label class="check none-row"><input type="checkbox" class="none-option" data-scope="E" data-group="ucl" id="E_ucl_none"><span>特になし</span></label>
+      </div>
+    </details>
+    <details class="card">
+      <summary>② 外側痛（離断性骨軟骨炎 含む）</summary>
+      <div class="content checks">
+        <label class="check"><input type="checkbox" data-scope="E" data-group="lat" data-weight="3" id="E_lat_capitellum"><span>上腕骨小頭付近の局所痛／荷重で悪化</span></label>
+        <label class="check"><input type="checkbox" data-scope="E" data-group="lat" data-weight="2" id="E_lat_lock"><span>クリック音・引っかかり／可動域のロック感</span></label>
+        <label class="check"><input type="checkbox" data-scope="E" data-group="lat" data-weight="2" id="E_lat_tender"><span>外側の限局圧痛</span></label>
+        <label class="check none-row"><input type="checkbox" class="none-option" data-scope="E" data-group="lat" id="E_lat_none"><span>特になし</span></label>
+      </div>
+    </details>
+    <details class="card">
+      <summary>③ 後方インピンジメント／尺骨鉤状突起部</summary>
+      <div class="content checks">
+        <label class="check"><input type="checkbox" data-scope="E" data-group="post" data-weight="2" id="E_post_extension"><span>肘伸展終末で後方痛</span></label>
+        <label class="check"><input type="checkbox" data-scope="E" data-group="post" data-weight="2" id="E_post_follow"><span>フォロースルーで痛む</span></label>
+        <label class="check"><input type="checkbox" data-scope="E" data-group="post" data-weight="1" id="E_post_swelling"><span>練習後の腫れ・熱感</span></label>
+        <label class="check none-row"><input type="checkbox" class="none-option" data-scope="E" data-group="post" id="E_post_none"><span>特になし</span></label>
+      </div>
+    </details>
+    <details class="card">
+      <summary>④ 神経症状（尺骨神経など）</summary>
+      <div class="content checks">
+        <label class="check"><input type="checkbox" data-scope="E" data-group="nerve" data-weight="3" id="E_nerve_numb"><span>小指・環指のしびれ/感覚低下</span></label>
+        <label class="check"><input type="checkbox" data-scope="E" data-group="nerve" data-weight="2" id="E_nerve_tinel"><span>肘部管タッピングでしびれ誘発</span></label>
+        <label class="check"><input type="checkbox" data-scope="E" data-group="nerve" data-weight="2" id="E_nerve_weak"><span>握力低下感・巧緻性低下</span></label>
+        <label class="check none-row"><input type="checkbox" class="none-option" data-scope="E" data-group="nerve" id="E_nerve_none"><span>特になし</span></label>
+      </div>
+    </details>
+    <details class="card">
+      <summary>⑤ 練習量・可動域・筋機能</summary>
+      <div class="content checks">
+        <label class="check"><input type="checkbox" data-scope="E" data-group="func" data-weight="2" id="E_func_loadspike"><span>投球量が前週比で30%超の急増</span></label>
+        <label class="check"><input type="checkbox" data-scope="E" data-group="func" data-weight="1" id="E_func_rom"><span>伸展/回内外で左右差・突っ張り感</span></label>
+        <label class="check"><input type="checkbox" data-scope="E" data-group="func" data-weight="1" id="E_func_flexor"><span>前腕屈筋群の筋疲労・持久力低下</span></label>
+        <label class="check none-row"><input type="checkbox" class="none-option" data-scope="E" data-group="func" id="E_func_none"><span>特になし</span></label>
+      </div>
+    </details>
+    <details class="card">
+      <summary>⑥ レッドフラッグ（緊急度高）</summary>
+      <div class="content checks">
+        <label class="check"><input type="checkbox" data-scope="E" data-group="red" data-weight="6" id="E_red_deform"><span>明らかな変形／脱臼疑い（段差・位置異常）</span></label>
+        <label class="check"><input type="checkbox" data-scope="E" data-group="red" data-weight="5" id="E_red_lock"><span>完全なロック（動かせない）</span></label>
+        <label class="check"><input type="checkbox" data-scope="E" data-group="red" data-weight="5" id="E_red_cold"><span>蒼白・冷感・脈が弱い</span></label>
+        <label class="check none-row"><input type="checkbox" class="none-option" data-scope="E" data-group="red" id="E_red_none"><span>特になし</span></label>
+      </div>
+    </details>
+    <section class="card no-print">
+      <div class="toolbar">
+        <button class="primary" data-copy="E">結果をコピー</button>
+        <button class="ghost" data-reset="E">判定をリセット</button>
+      </div>
+    </section>
+  </section>
+
+  <!-- ===== 足関節 ===== -->
+  <section id="pane-ankle" class="pane">
+    <div class="card"><div class="section-title">足関節 機能セルフチェック <span class="hint">チェック → 自動判定 → コピー</span></div></div>
+    <div class="card">
+      <div class="section-title">受診必要性 &amp; 競技参加（参考）</div>
+      <div class="status">
+        <span id="A_statusBadge" class="badge ok-badge">様子観察（所見なし）</span>
+        <div>
+          <div id="A_statusText">チェックを入れると自動判定します。</div>
+          <div id="A_playText" class="hint">参加目安：全面参加可（痛みゼロ／可動域正常が前提）</div>
+          <div id="A_summary" class="mono" style="margin-top:.4rem;white-space:pre-wrap"></div>
+        </div>
+      </div>
+    </div>
+    <details open class="card">
+      <summary>① 捻挫関連（外側靱帯/ATFLなど）</summary>
+      <div class="content checks">
+        <label class="check"><input type="checkbox" data-scope="A" data-group="sprain" data-weight="2" id="A_sprain_inversion"><span>内反で痛む／不安定感</span></label>
+        <label class="check"><input type="checkbox" data-scope="A" data-group="sprain" data-weight="2" id="A_sprain_tender"><span>外果前下/前方の限局圧痛（ATFL近位）</span></label>
+        <label class="check"><input type="checkbox" data-scope="A" data-group="sprain" data-weight="1" id="A_sprain_swelling"><span>腫れ・皮下出血</span></label>
+        <label class="check none-row"><input type="checkbox" class="none-option" data-scope="A" data-group="sprain" id="A_sprain_none"><span>特になし</span></label>
+      </div>
+    </details>
+    <details class="card">
+      <summary>② 可動域/モビリティ（背屈制限など）</summary>
+      <div class="content checks">
+        <label class="check"><input type="checkbox" data-scope="A" data-group="mob" data-weight="2" id="A_mob_df"><span>背屈が反対側より明らかに少ない</span></label>
+        <label class="check"><input type="checkbox" data-scope="A" data-group="mob" data-weight="1" id="A_mob_knee2wall"><span>ニー・トゥ・ウォールで左右差（主観で3cm以上）</span></label>
+        <label class="check"><input type="checkbox" data-scope="A" data-group="mob" data-weight="1" id="A_mob_achilles"><span>アキレス腱部の硬さ・突っ張り</span></label>
+        <label class="check none-row"><input type="checkbox" class="none-option" data-scope="A" data-group="mob" id="A_mob_none"><span>特になし</span></label>
+      </div>
+    </details>
+    <details class="card">
+      <summary>③ 機能/安定性（FAI/CAI傾向）</summary>
+      <div class="content checks">
+        <label class="check"><input type="checkbox" data-scope="A" data-group="func" data-weight="2" id="A_func_balance"><span>片脚バランスでふらつき（左右差大）</span></label>
+        <label class="check"><input type="checkbox" data-scope="A" data-group="func" data-weight="2" id="A_func_jump"><span>ジャンプ着地で痛み/不安定感</span></label>
+        <label class="check"><input type="checkbox" data-scope="A" data-group="func" data-weight="1" id="A_func_fatigue"><span>ふくらはぎ/腓骨筋の筋持久力低下</span></label>
+        <label class="check none-row"><input type="checkbox" class="none-option" data-scope="A" data-group="func" id="A_func_none"><span>特になし</span></label>
+      </div>
+    </details>
+    <details class="card">
+      <summary>④ ストレス/負荷</summary>
+      <div class="content checks">
+        <label class="check"><input type="checkbox" data-scope="A" data-group="load" data-weight="2" id="A_load_spike"><span>走行距離・ダッシュ・方向転換が前週比30％以上増</span></label>
+        <label class="check"><input type="checkbox" data-scope="A" data-group="load" data-weight="1" id="A_load_surface"><span>硬い路面/スパイク変更直後</span></label>
+        <label class="check none-row"><input type="checkbox" class="none-option" data-scope="A" data-group="load" id="A_load_none"><span>特になし</span></label>
+      </div>
+    </details>
+    <details class="card">
+      <summary>⑤ レッドフラッグ（緊急度高）</summary>
+      <div class="content checks">
+        <label class="check"><input type="checkbox" data-scope="A" data-group="red" data-weight="6" id="A_red_inability"><span>4歩以上歩けない/荷重不可</span></label>
+        <label class="check"><input type="checkbox" data-scope="A" data-group="red" data-weight="6" id="A_red_deform"><span>明らかな変形/強い圧痛の一点集中</span></label>
+        <label class="check"><input type="checkbox" data-scope="A" data-group="red" data-weight="5" id="A_red_cold"><span>蒼白・冷感・しびれの持続</span></label>
+        <label class="check none-row"><input type="checkbox" class="none-option" data-scope="A" data-group="red" id="A_red_none"><span>特になし</span></label>
+      </div>
+    </details>
+    <section class="card no-print">
+      <div class="toolbar">
+        <button class="primary" data-copy="A">結果をコピー</button>
+        <button class="ghost" data-reset="A">判定をリセット</button>
+      </div>
+    </section>
+  </section>
+
+  <footer>
+    免責：本ツールは教育・啓発目的の参考情報であり、診断・治療を行うものではありません。
+    緊急性が疑われる症状（変形、強い痛み、神経/血流異常、歩行不能 等）は速やかな受診を推奨します。
+  </footer>
 </main>
 
 <script>
 (function(){
-  var $=function(s){return document.querySelector(s)};
-  var $$=function(s){return Array.prototype.slice.call(document.querySelectorAll(s))};
+  // -------- Self-diagnostics (DOM破損検知) --------
+  const required = [
+    '#pane-lumbar','#pane-shoulder','#pane-elbow','#pane-ankle',
+    '#L_statusBadge','#S_statusBadge','#E_statusBadge','#A_statusBadge'
+  ];
+  const missing = required.filter(sel=>!document.querySelector(sel));
+  const lumbarDetailsCount = document.querySelectorAll('#pane-lumbar details.card').length;
+  if(missing.length || lumbarDetailsCount<7){
+    alert('HTMLが壊れています（タグの閉じ忘れ等）。ファイルを丸ごと差し替えてください。'
+      + '\\nmissing:'+missing.join(', ') + ' / lumbar details:'+lumbarDetailsCount);
+  }
 
-  function hook(){
-    $$('.none-option').forEach(function(n){
-      n.addEventListener('change', function(e){
-        var g=e.target.getAttribute('data-group');
+  // -------- Tabs --------
+  function switchTo(pane){
+    document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active', b.dataset.pane===pane));
+    document.querySelectorAll('.pane').forEach(p=>p.classList.toggle('active', p.id==='pane-'+pane));
+  }
+  document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>switchTo(b.dataset.pane)));
+
+  // -------- Utils --------
+  const qs = s => document.querySelector(s);
+  const qsa = s => Array.from(document.querySelectorAll(s));
+  function copyText(text){
+    if(navigator.clipboard?.writeText){ navigator.clipboard.writeText(text).then(()=>alert('結果をコピーしました。'),()=>fallback(text)); }
+    else fallback(text);
+    function fallback(t){ const ta=document.createElement('textarea'); ta.value=t; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); alert('結果をコピーしました。'); }
+  }
+
+  // -------- Evaluation engine --------
+  function calcLevel(score, combos, redHigh, critical, loadSpike){
+    if(critical) return 3;
+    let level = score===0?0 : score<=2?1 : score<=5?2 : 3;
+    if(combos) level=Math.max(level,2);
+    if(redHigh) level=Math.max(level,2);
+    if(loadSpike && level<2) level=2;
+    return level;
+  }
+
+  const MAP = {
+    L:{badge:'#L_statusBadge',text:'#L_statusText',play:'#L_playText',summary:'#L_summary',
+       combos:has=> (has('L_hernia_leg')&&(has('L_hernia_slr')||has('L_hernia_weak'))) || (has('L_spondy_extend')&&has('L_spondy_oneleg')),
+       redHigh:has=> ['L_red_fever','L_red_weightloss','L_red_cancer','L_red_trauma'].some(has),
+       critical:has=> ['L_red_bladder','L_red_saddle','L_red_bilatleg'].some(has),
+       loadSpike:has=> has('L_bb_loadspike'),
+       play:[
+        '参加目安：全面参加可（痛みゼロ／可動域正常／走・投・打で違和感なしが前提）',
+        '参加目安：制限付き参加（走は距離短・傾斜回避、投は距離短/回数半分、打はティー中心）。24–72時間で再評価。',
+        '参加目安：練習中止。軽負荷リハのみ（股関節モビ・体幹スタビ・ハム/臀リワーク）。受診を検討。',
+        '参加目安：競技中止。できるだけ早く医療機関を受診。固定・冷却・疼痛管理を優先。'
+       ],
+       advice:{0:'該当なし：セルフケアで様子観察。痛み出現で即中止、悪化や長期化は受診。',1:'経過観察（セルフケア）：RICE/ホット&コールド、自重〜低荷重で可動性確保。痛みゼロを条件に段階復帰。',2:'受診検討（黄）：症状が続く/強まる、分離/ヘルニア疑い、レッドフラッグの一部あり。',3:'受診推奨（赤）：膀胱直腸障害、鞍部感覚低下、両下肢神経症状 等。緊急受診が必要。'}},
+    S:{badge:'#S_statusBadge',text:'#S_statusText',play:'#S_playText',summary:'#S_summary',
+       combos:has=> (has('S_rc_painfularc')&&has('S_rc_resist')) || (has('S_imp_latecocking')&&(has('S_imp_throw_end')||has('S_imp_posterior_stretch'))) || (has('S_slap_click')&&(has('S_slap_speed')||has('S_slap_follow'))),
+       redHigh:has=> ['S_red_fever','S_red_hightrauma'].some(has),
+       critical:has=> ['S_red_deform','S_red_numb','S_red_cold'].some(has),
+       loadSpike:has=> has('S_imp_loadspike'),
+       play:[
+        '参加目安：全面参加可（痛みゼロ／可動域正常／投打で違和感なしが前提）',
+        '参加目安：制限付き参加（投は距離短/回数半分・ブルペン回避、打はティー中心）。24–72時間で再評価。',
+        '参加目安：練習中止。軽負荷リハのみ（胸椎モビ・肩甲帯コントロール・カフ活性）。受診を検討。',
+        '参加目安：競技中止。変形・神経/血流症状があれば至急受診。固定・冷却・疼痛管理を優先。'
+       ],
+       advice:{0:'該当なし：セルフケアで様子観察。痛み出現で即中止、悪化や長期化は受診。',1:'経過観察（セルフケア）：ホット&コールド、自重ドリル／胸椎モビ・肩甲帯コントロール。痛みゼロで段階復帰。',2:'受診検討（黄）：症状が続く/強まる、カフ/SLAP/インピンジメント疑い、レッドフラッグ一部あり。',3:'受診推奨（赤）：変形、神経/血流サイン。緊急受診が必要。'}},
+    E:{badge:'#E_statusBadge',text:'#E_statusText',play:'#E_playText',summary:'#E_summary',
+       combos:has=> (has('E_ucl_valgus')&&(has('E_ucl_latecocking')||has('E_ucl_tender'))) || (has('E_lat_capitellum')&&has('E_lat_lock')) || (has('E_nerve_numb')&&(has('E_nerve_tinel')||has('E_nerve_weak'))),
+       redHigh:has=> false, critical:has=> ['E_red_deform','E_red_lock','E_red_cold'].some(has),
+       loadSpike:has=> has('E_func_loadspike'),
+       play:[
+        '参加目安：全面参加可（痛みゼロ／可動域正常／投打で違和感なしが前提）',
+        '参加目安：制限付き参加（投は距離短/回数半分、ブルペン回避）。24–72時間で再評価。',
+        '参加目安：練習中止。軽負荷リハのみ（前腕屈伸筋ケア・肩甲帯連動）。受診を検討。',
+        '参加目安：競技中止。変形・ロック・血流異常があれば至急受診。'
+       ],
+       advice:{0:'該当なし：セルフケアで様子観察。痛み出現で即中止、悪化や長期化は受診。',1:'経過観察（セルフケア）：ホット&コールド、前腕/肩甲帯活性。痛みゼロで段階復帰。',2:'受診検討（黄）：症状が続く/強まる、UCL/外側障害/神経症状の疑い。',3:'受診推奨（赤）：変形・ロック・血流異常。緊急受診が必要。'}},
+    A:{badge:'#A_statusBadge',text:'#A_statusText',play:'#A_playText',summary:'#A_summary',
+       combos:has=> (has('A_sprain_inversion')&&has('A_sprain_tender')) || (has('A_mob_df')&&has('A_mob_knee2wall')) || (has('A_func_balance')&&has('A_func_jump')),
+       redHigh:has=> false, critical:has=> ['A_red_inability','A_red_deform','A_red_cold'].some(has),
+       loadSpike:has=> has('A_load_spike'),
+       play:[
+        '参加目安：全面参加可（痛みゼロ／可動域正常／走跳で違和感なしが前提）',
+        '参加目安：制限付き参加（直線走中心・方向転換/接触/高強度は回避）。24–72時間で再評価。',
+        '参加目安：練習中止。軽負荷リハのみ（背屈モビ・ヒラメ筋/腓骨筋活性・バランス）。受診を検討。',
+        '参加目安：競技中止。荷重不可・変形・血流/神経サインがあれば至急受診。'
+       ],
+       advice:{0:'該当なし：セルフケアで様子観察。痛み出現で即中止、悪化や長期化は受診。',1:'経過観察（セルフケア）：ホット&コールド、背屈モビと荷重コントロール。痛みゼロで段階復帰。',2:'受診検討（黄）：症状が続く/強まる、捻挫/機能不全の疑い、背屈制限の顕著化。',3:'受診推奨（赤）：荷重不可・変形・血流/神経サイン。緊急受診が必要。'}}
+  };
+
+  function evaluate(scope){
+    const cfg = MAP[scope];
+    const checked = qsa(`input[type="checkbox"][data-scope="${scope}"]:checked:not(.none-option)`);
+    const score = checked.reduce((s,c)=> s + (+c.getAttribute('data-weight')||1), 0);
+    const has = id => (document.getElementById(id)?.checked)||false;
+
+    const level = calcLevel(score, cfg.combos(has), cfg.redHigh(has), cfg.critical(has), cfg.loadSpike(has));
+    const classes = ['ok-badge','info-badge','warn-badge','danger-badge'];
+    const labels  = ['様子観察（所見なし）','経過観察（セルフケア）','受診検討','受診推奨'];
+
+    const badge = qs(cfg.badge), text=qs(cfg.text), play=qs(cfg.play), sum=qs(cfg.summary);
+    if(!badge||!text||!play||!sum){ console.error('要素不足', scope, cfg); return; }
+
+    badge.className='badge '+classes[level];
+    badge.textContent=labels[level];
+    text.textContent=cfg.advice[level];
+    play.textContent=cfg.play[level];
+
+    const labelsChecked = checked.map(cb=>cb.closest('label')?.innerText.trim()||'').filter(Boolean);
+    const now=new Date();
+    const ds=now.toLocaleDateString('ja-JP');
+    const ts=now.toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit'});
+    const titleMap={L:'腰部',S:'肩',E:'肘',A:'足関節 機能'};
+    sum.textContent =
+`【${titleMap[scope]}セルフチェック LITE】
+日時：${ds} ${ts}
+判定：${labels[level]}
+指針：${cfg.advice[level]}
+参加目安：${cfg.play[level]}
+チェック項目：
+- ${labelsChecked.join('\n- ') || '（なし）'}`;
+  }
+
+  function wire(scope){
+    // none-option排他
+    qsa(`input[type="checkbox"][data-scope="${scope}"].none-option`).forEach(n=>{
+      n.addEventListener('change',e=>{
+        const g=e.target.getAttribute('data-group');
         if(e.target.checked){
-          $$('input[type="checkbox"][data-group="'+g+'"]:not(.none-option)').forEach(function(cb){ cb.checked=false; });
+          qsa(`input[type="checkbox"][data-scope="${scope}"][data-group="${g}"]:not(.none-option)`).forEach(cb=>cb.checked=false);
         }
-        evaluate();
+        evaluate(scope);
       });
     });
-    $$('input[type="checkbox"]:not(.none-option)').forEach(function(cb){
-      cb.addEventListener('change', function(e){
-        var g=e.target.getAttribute('data-group');
-        if(g){
-          var none=document.querySelector('.none-option[data-group="'+g+'"]');
-          if(none && e.target.checked){ none.checked=false; }
-        }
-        evaluate();
+    // 通常チェック
+    qsa(`input[type="checkbox"][data-scope="${scope}"]:not(.none-option)`).forEach(cb=>{
+      cb.addEventListener('change',e=>{
+        const g=e.target.getAttribute('data-group');
+        const none=document.querySelector(`input.none-option[data-scope="${scope}"][data-group="${g}"]`);
+        if(none && e.target.checked) none.checked=false;
+        evaluate(scope);
       });
     });
+    // reset/copy
+    const r=document.querySelector(`[data-reset="${scope}"]`); if(r) r.addEventListener('click',()=>{ qsa(`input[type="checkbox"][data-scope="${scope}"]`).forEach(c=>c.checked=false); evaluate(scope); });
+    const c=document.querySelector(`[data-copy="${scope}"]`);  if(c) c.addEventListener('click',()=>{ const t=document.querySelector(MAP[scope].summary); copyText(t?.textContent||''); });
+
+    evaluate(scope);
   }
 
-  function evaluate(){
-    var cbs = $$('input[type="checkbox"]:not(.none-option)');
-    var checked = cbs.filter(function(x){ return x.checked; });
-    var score = checked.reduce(function(s,c){ return s + (Number(c.getAttribute('data-weight'))||1); }, 0);
-    function has(id){ var el=$('#'+id); return el && el.checked; }
-
-    var hasCritical = ['red_bladder','red_saddle','red_bilatleg'].some(has);
-    var redHigh = ['red_fever','red_weightloss','red_cancer','red_trauma'].some(has);
-    var spike = has('bb_loadspike');
-
-    var herniaCombo = (has('hernia_leg') && (has('hernia_slr') || has('hernia_weak')));
-    var spondyCombo = (has('spondy_extend') && has('spondy_oneleg'));
-
-    var level = 0;
-    if(hasCritical){
-      level = 3;
-    }else{
-      if(score===0){ level=0; }
-      else if(score<=2){ level=1; }
-      else if(score<=5){ level=2; }
-      else{ level=3; }
-      if(herniaCombo || spondyCombo) level = Math.max(level,2);
-      if(redHigh) level = Math.max(level,2);
-      if(spike && level<2) level = 2;
-    }
-
-    var playAdvice = [
-      '全面参加可（痛みゼロ／可動域正常／走・投・打で違和感なしが前提）',
-      '制限付き参加（走は距離短・傾斜回避、投は距離短/回数半分、打はティー中心）。24–72時間で再評価。',
-      '練習中止。軽負荷リハのみ（股関節モビ・体幹スタビ・ハム/臀リワーク）。医療受診を検討。',
-      '競技中止。できるだけ早く医療機関を受診。固定・冷却・疼痛管理を優先。'
-    ];
-    var adviceMap = {
-      0:'該当なし：セルフケアで様子観察。痛み出現で即中止、悪化や長期化は受診。',
-      1:'経過観察（セルフケア）：RICE/ホット&コールド、自重〜低荷重で可動性確保。痛みゼロを条件に段階復帰。',
-      2:'受診検討（黄）：症状が続く/強まる、分離/ヘルニア疑い、レッドフラッグの一部あり→整形外科受診検討。',
-      3:'受診推奨（赤）：膀胱直腸障害、鞍部感覚低下、両下肢神経症状 等。緊急受診が必要。'
-    };
-    var classes = ['ok-badge','info-badge','warn-badge','danger-badge'];
-    var labels  = ['様子観察（所見なし）','経過観察（セルフケア）','受診検討','受診推奨'];
-
-    $('#statusBadge').className = 'badge '+classes[level];
-    $('#statusBadge').textContent = labels[level];
-    $('#statusText').textContent = adviceMap[level];
-    $('#playText').textContent = playAdvice[level];
-
-    var checkedLabels = $$('input[type="checkbox"]:checked').map(function(cb){
-      var label = cb.closest('label'); return label?label.innerText.trim():'';
-    }).filter(Boolean);
-    var now = new Date();
-    var ds = now.toLocaleDateString('ja-JP');
-    var ts = now.toLocaleTimeString('ja-JP',{hour:'2-digit', minute:'2-digit'});
-    var summary =
-'【腰部セルフチェック LITE】\n'
-+'日時：'+ds+' '+ts+'\n'
-+'判定：'+labels[level]+'\n'
-+'指針：'+adviceMap[level]+'\n'
-+'参加目安：'+playAdvice[level]+'\n'
-+'チェック項目：\n'
-+'- '+(checkedLabels.join('\n- ') || '（なし）');
-    $('#summary').textContent = summary;
-  }
-
-  function resetAll(){
-    $$('input[type="checkbox"]').forEach(function(c){ c.checked=false; });
-    evaluate();
-  }
-
-  hook();
-  evaluate();
-
-  var btnP=$('#btnPrint'), btnR=$('#btnReset'), btnC=$('#btnCopy');
-  if(btnP) btnP.addEventListener('click', function(){ window.print(); });
-  if(btnR) btnR.addEventListener('click', resetAll);
-  if(btnC) btnC.addEventListener('click', function(){
-    var text = ($('#summary') && $('#summary').textContent) || '';
-    if(navigator.clipboard && navigator.clipboard.writeText){
-      navigator.clipboard.writeText(text).then(function(){ alert('結果をコピーしました。'); }, function(){ fallbackCopy(text); });
-    }else{ fallbackCopy(text); }
-    function fallbackCopy(t){
-      var ta=document.createElement('textarea'); ta.value=t; document.body.appendChild(ta);
-      ta.select(); try{ document.execCommand('copy'); alert('結果をコピーしました。'); } finally{ document.body.removeChild(ta); }
-    }
-  });
+  ['L','S','E','A'].forEach(wire);
 })();
 </script>
 </body>
